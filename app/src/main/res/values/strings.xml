@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">CalorieSnap</string>
+    <string name="your_food">Your Food</string>
+    <string name="take_picture">Take Picture</string>
+    <string name="select_picture">Select Picture</string>
+    <string name="predicted">Confirm</string>
+    <string name="please_select_confirm_button">Please Select Confirm Button To Recognize and Display Calories</string>
+    <string name="food_image">Food Image</string>
+    <string name="reselect_retake_food">Reselect / Retake Food</string>
+    <string name="enter_grams">Enter weight in grams</string>
+    <string name="user_profile">User Profile</string>
+    <string name="food_records">User Profile</string>
+    <string name="upload_images">User Profile</string>
+</resources>
