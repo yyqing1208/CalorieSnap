@@ -23,6 +23,10 @@ import com.android.volley.Request
 import android.content.Context
 import android.util.Log
 import org.json.JSONException
+import android.graphics.Color
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -177,14 +181,15 @@ class MainActivity : AppCompatActivity() {
         dialog.show()
     }
 
-    private fun fetchTodayCalories(email:String) {
-
-
+    private fun fetchTodayCalories(email: String) {
         val url = "http://192.168.43.152:80/FYP/dailyIntake.php?email=$email"
         val request = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
                 val caloriesToday = response.getInt("calories_today")
                 updateCaloriesTextView(caloriesToday)
+                if (caloriesToday > 2000) {
+                    showAlert()
+                }
             },
             { error ->
                 Toast.makeText(this, "Error fetching data: ${error.message}", Toast.LENGTH_SHORT).show()
@@ -193,6 +198,26 @@ class MainActivity : AppCompatActivity() {
         // Add the request to the RequestQueue.
         Volley.newRequestQueue(this).add(request)
     }
+
+    private fun showAlert() {
+        val builder = AlertDialog.Builder(this)
+        builder.apply {
+            setMessage("You have exceeded your calorie intake limit of calories today. Please consider reviewing your dietary habits.")
+            setTitle("Calorie Alert")
+            setPositiveButton("OK") { dialog, _ ->
+                dialog.dismiss()
+            }
+        }
+        val dialog = builder.create()
+        dialog.show()
+
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE)?.let { button ->
+            val spannableString = SpannableString(button.text)
+            spannableString.setSpan(ForegroundColorSpan(Color.BLACK), 0, spannableString.length, 0)
+            button.text = spannableString
+        }
+    }
+
 
     private fun updateCaloriesTextView(caloriesToday: Int) {
         binding.tv450.text = caloriesToday.toString()
